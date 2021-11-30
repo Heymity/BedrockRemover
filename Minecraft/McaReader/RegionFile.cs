@@ -1,3 +1,7 @@
+/*
+ * Original code made by mblaine in his project Topographer (https://github.com/mblaine/Topographer) (MIT License), with some modifications made by me (Heymity)
+ */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,12 +20,7 @@ namespace RemoveBedrock.Minecraft.McaReader
         private Coord _coords;
         private readonly string _path;
         private bool _dirty;
-
-        public RegionFile()
-        {
-            _chunks = new Chunk[32, 32];
-        }
-
+        
         public RegionFile(string path)
         {
             _path = path;

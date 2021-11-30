@@ -1,3 +1,7 @@
+/*
+ * Original code made by mblaine in his project Topographer (https://github.com/mblaine/Topographer) (MIT License), with some modifications made by me (Heymity)
+ */
+
 using System;
 
 namespace RemoveBedrock.Minecraft.McaReader
