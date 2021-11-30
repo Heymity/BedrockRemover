@@ -4,11 +4,11 @@ using System.IO;
 using System.Threading.Tasks;
 using Cyotek.Data.Nbt;
 
-namespace RemoveYZeroBedrock
+namespace RemoveBedrock
 {
     using Minecraft.McaReader;
-    
-    class Program
+
+    internal static class Program
     {
         private const string ProgramPath =
             @"C:\Users\GABRIEL\Desktop\LangFiles\C#\NBTManipulation\RemoveYZeroBedrock\RemoveYZeroBedrock";
@@ -18,8 +18,12 @@ namespace RemoveYZeroBedrock
             var reg = LoadRegionFile(ProgramPath + @"\test\input\r.0.-1.mca");
             Console.WriteLine(reg);
             reg.ToList().ForEach(HandleChunk);
+            reg.SetDirty();
+            
+            reg.Write(ProgramPath + @"\test\r.0.-1.mca");
             // Can be done in parallel.
-            //Parallel.ForEach(reg, HandleChunk);
+            // Parallel.ForEach(reg, HandleChunk);
+            // reg.Dirty = true;
         }
         
         private static void HandleChunk(Chunk chunk)
@@ -56,11 +60,11 @@ namespace RemoveYZeroBedrock
             Console.WriteLine($"Substituting bedrock");
 
             bedrockTag.Value = "minecraft:deepslate";
+            chunk.Dirty = true;
             
             Console.WriteLine($"Chunk {chunk.Coords} done!");
 
             // I think this line is needed for it to be saved, need to check the region.Write() function.
-            // chunk.Dirty = true;
         }
 
         private static RegionFile LoadRegionFile(string path) => new RegionFile(path);

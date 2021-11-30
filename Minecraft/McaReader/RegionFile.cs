@@ -9,69 +9,68 @@ using Cyotek.Data.Nbt;
 using Cyotek.Data.Nbt.Serialization;
 using Ionic.Zlib;
 
-namespace RemoveYZeroBedrock.Minecraft.McaReader
+namespace RemoveBedrock.Minecraft.McaReader
 {
    public class RegionFile : IEnumerable<Chunk>
     {
-        public Chunk[,] Chunks;
-        public Coord Coords;
-        public String Path;
-        public bool Dirty;
+        private Chunk[,] Chunks;
+        private Coord Coords;
+        private readonly string Path;
+        private bool Dirty;
 
         public RegionFile()
         {
             Chunks = new Chunk[32, 32];
         }
 
-        public RegionFile(String path)
+        public RegionFile(string path)
         {
             Path = path;
             Read(Path);
         }
 
         //http://www.minecraftwiki.net/wiki/Region_file_format
-        public void Read(String path)
+        private void Read(string path)
         {
             Chunks = new Chunk[32, 32];
-            Match m = Regex.Match(path, @"r\.(-?\d+)\.(-?\d+)\.mc[ar]");
+            var m = Regex.Match(path, @"r\.(-?\d+)\.(-?\d+)\.mc[ar]");
             Coords.X = int.Parse(m.Groups[1].Value);
             Coords.Z = int.Parse(m.Groups[2].Value);
 
-            byte[] header = new byte[8192];
+            var header = new byte[8192];
 
-            using BinaryReader file = new BinaryReader(File.Open(path, FileMode.Open));
+            using var file = new BinaryReader(File.Open(path, FileMode.Open));
             file.Read(header, 0, 8192);
 
-            for (int chunkZ = 0; chunkZ < 32; chunkZ++)
+            for (var chunkZ = 0; chunkZ < 32; chunkZ++)
             {
-                for (int chunkX = 0; chunkX < 32; chunkX++)
+                for (var chunkX = 0; chunkX < 32; chunkX++)
                 {
-                    Chunk c = new Chunk();
-                    c.Coords.X = Coords.X;
-                    c.Coords.Z = Coords.Z;
-                    c.Coords.RegiontoChunk();
-                    c.Coords.Add(chunkX, chunkZ);
+                    var chunk = new Chunk();
+                    chunk.Coords.X = Coords.X;
+                    chunk.Coords.Z = Coords.Z;
+                    chunk.Coords.RegionToChunk();
+                    chunk.Coords.Add(chunkX, chunkZ);
+                    
+                    var i = 4 * (chunkX + chunkZ * 32);
 
-
-                    int i = 4 * (chunkX + chunkZ * 32);
-
-                    byte[] temp = new byte[4];
+                    var temp = new byte[4];
                     temp[0] = 0;
                     Array.Copy(header, i, temp, 1, 3);
                     if (BitConverter.IsLittleEndian)
                         Array.Reverse(temp);
-                    long offset = ((long)BitConverter.ToInt32(temp, 0)) * 4096;
-                    int length = header[i + 3] * 4096;
+                    var offset = ((long)BitConverter.ToInt32(temp, 0)) * 4096;
+                    var length = header[i + 3] * 4096;
 
                     temp = new byte[4];
                     Array.Copy(header, i + 4096, temp, 0, 4);
                     if (BitConverter.IsLittleEndian)
                         Array.Reverse(temp);
-                    c.Timestamp = BitConverter.ToInt32(temp, 0);
+                    chunk.Timestamp = BitConverter.ToInt32(temp, 0);
 
                     if (offset == 0 && length == 0)
                     {
-                        Chunks[chunkX, chunkZ] = c;
+                        Chunks[chunkX, chunkZ] = chunk;
                         continue;
                     }
 
@@ -81,43 +80,48 @@ namespace RemoveYZeroBedrock.Minecraft.McaReader
                     file.Read(temp, 0, 4);
                     if (BitConverter.IsLittleEndian)
                         Array.Reverse(temp);
-                    int exactLength = BitConverter.ToInt32(temp, 0);
+                    var exactLength = BitConverter.ToInt32(temp, 0);
 
-                    c.CompressionType = file.ReadByte();
-                    if (c.CompressionType == 1) //GZip
+                    chunk.CompressionType = file.ReadByte();
+                    switch (chunk.CompressionType)
                     {
-                        c.RawData = new byte[exactLength - 1];
-                        file.Read(c.RawData, 0, exactLength - 1);
+                        //GZip
+                        case 1:
+                        {
+                            chunk.RawData = new byte[exactLength - 1];
+                            file.Read(chunk.RawData, 0, exactLength - 1);
 
-                        using GZipStream decompress = new GZipStream(new MemoryStream(c.RawData), CompressionMode.Decompress);
-                        using MemoryStream mem = new MemoryStream();
-                        decompress.CopyTo(mem);
-                        mem.Seek(0, SeekOrigin.Begin);
-                        //c.Root = new TAG_Compound(mem);
+                            using var decompress = new GZipStream(new MemoryStream(chunk.RawData), CompressionMode.Decompress);
+                            using var mem = new MemoryStream();
+                            decompress.CopyTo(mem);
+                            mem.Seek(0, SeekOrigin.Begin);
+                            //c.Root = new TAG_Compound(mem);
                         
-                        NbtDocument document = NbtDocument.LoadDocument(mem);
-                        c.Root = document.DocumentRoot;
-                    }
-                    else if (c.CompressionType == 2) //Zlib
-                    {
-                        c.RawData = new byte[exactLength - 1];
-                        file.Read(c.RawData, 0, exactLength - 1);
+                            var document = NbtDocument.LoadDocument(mem);
+                            chunk.NbtData = document;
+                            break;
+                        }
+                        //Zlib
+                        case 2:
+                        {
+                            chunk.RawData = new byte[exactLength - 1];
+                            file.Read(chunk.RawData, 0, exactLength - 1);
 
-                        using ZlibStream decompress = new ZlibStream(new MemoryStream(c.RawData), CompressionMode.Decompress);
-                        using MemoryStream mem = new MemoryStream();
-                        decompress.CopyTo(mem);
-                        mem.Seek(0, SeekOrigin.Begin);
-                        //c.Root = new TAG_Compound(mem);
+                            using var decompress = new ZlibStream(new MemoryStream(chunk.RawData), CompressionMode.Decompress);
+                            using var mem = new MemoryStream();
+                            decompress.CopyTo(mem);
+                            mem.Seek(0, SeekOrigin.Begin);
+                            //c.Root = new TAG_Compound(mem);
                         
-                        NbtDocument document = NbtDocument.LoadDocument(mem);
-                        c.Root = document.DocumentRoot;
-                    }
-                    else
-                    {
-                        throw new Exception("Unrecognized compression type");
+                            var document = NbtDocument.LoadDocument(mem);
+                            chunk.NbtData = document;
+                            break;
+                        }
+                        default:
+                            throw new Exception("Unrecognized compression type");
                     }
 
-                    Chunks[chunkX, chunkZ] = c;
+                    Chunks[chunkX, chunkZ] = chunk;
                 }
             }
 
@@ -129,28 +133,29 @@ namespace RemoveYZeroBedrock.Minecraft.McaReader
             Write(Path);
         }
 
-        public void Write(String path)
+        public void Write(string path)
         {
             if (!Dirty)
                 return;
-            byte[] header = new byte[8192];
+            
+            var header = new byte[8192];
             Array.Clear(header, 0, 8192);
 
-            Int32 sectorOffset = 2;
-            using BinaryWriter file = new BinaryWriter(File.Exists(path) ? File.Open(path, FileMode.Truncate) : File.Open(path, FileMode.Create));
+            var sectorOffset = 2;
+            using var file = new BinaryWriter(File.Exists(path) ? File.Open(path, FileMode.Truncate) : File.Open(path, FileMode.Create));
             file.Write(header, 0, 8192);
 
-            for (int chunkX = 0; chunkX < 32; chunkX++)
+            for (var chunkX = 0; chunkX < 32; chunkX++)
             {
-                for (int chunkZ = 0; chunkZ < 32; chunkZ++)
+                for (var chunkZ = 0; chunkZ < 32; chunkZ++)
                 {
-                    Chunk c = Chunks[chunkX, chunkZ];
+                    var c = Chunks[chunkX, chunkZ];
                     if (c == null)
                         continue;
 
-                    int i = 4 * (chunkX + chunkZ * 32);
+                    var i = 4 * (chunkX + chunkZ * 32);
 
-                    byte[] temp = BitConverter.GetBytes(c.Timestamp);
+                    var temp = BitConverter.GetBytes(c.Timestamp);
                     if (BitConverter.IsLittleEndian)
                         Array.Reverse(temp);
                     Array.Copy(temp, 0, header, i + 4096, 4);
@@ -171,9 +176,9 @@ namespace RemoveYZeroBedrock.Minecraft.McaReader
                     {
                         //this is the performance bottleneck when doing 1024 chunks in a row;
                         //trying to only do when necessary
-                        MemoryStream mem = new MemoryStream();
-                        ZlibStream zlib = new ZlibStream(mem, CompressionMode.Compress);
-                        //c.Root.Write(zlib);
+                        var mem = new MemoryStream();
+                        var zlib = new ZlibStream(mem, CompressionMode.Compress);
+                        c.NbtData.Save(zlib);
                         zlib.Close();
                         c.RawData = mem.ToArray();
                         c.CompressionType = 2;
@@ -187,7 +192,7 @@ namespace RemoveYZeroBedrock.Minecraft.McaReader
                     file.Write(c.CompressionType);
                     file.Write(c.RawData, 0, c.RawData.Length);
 
-                    byte[] padding = new byte[(4096 - ((c.RawData.Length + 5) % 4096))];
+                    var padding = new byte[(4096 - ((c.RawData.Length + 5) % 4096))];
                     Array.Clear(padding, 0, padding.Length);
                     file.Write(padding);
 
@@ -204,28 +209,30 @@ namespace RemoveYZeroBedrock.Minecraft.McaReader
             Dirty = false;
         }
 
-        public override String ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("Region [{0}, {1}]{2}{{{2}", Coords.X, Coords.Z, Environment.NewLine);
-            foreach (Chunk c in Chunks)
-                sb.Append(c);
-            sb.AppendLine("}");
-            return sb.ToString();
-        }
+        public void SetDirty() => Dirty = true;
         
         public IEnumerator<Chunk> GetEnumerator() => Chunks.Cast<Chunk>().ToList().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => Chunks.GetEnumerator();
-
-        public static String ToString(String path)
+        
+        public override string ToString()
         {
-            Match m = Regex.Match(path, @"r\.(-?\d+)\.(-?\d+)\.mc[ar]");
-            Coord c = new Coord(int.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value));
-            Coord c2 = new Coord(int.Parse(m.Groups[1].Value) + 1, int.Parse(m.Groups[2].Value) + 1);
-            c.RegiontoAbsolute();
-            c2.RegiontoAbsolute();
-            return String.Format("Region {0}, {1} :: ({2}, {3}) to ({4}, {5})", m.Groups[1].Value, m.Groups[2].Value, c.X, c.Z, c2.X - 1, c2.Z - 1);
+            var sb = new StringBuilder();
+            sb.AppendFormat("Region [{0}, {1}]{2}{{{2}", Coords.X, Coords.Z, Environment.NewLine);
+            foreach (var c in Chunks)
+                sb.Append(c);
+            sb.AppendLine("}");
+            return sb.ToString();
+        }
+
+        public static string ToString(string path)
+        {
+            var m = Regex.Match(path, @"r\.(-?\d+)\.(-?\d+)\.mc[ar]");
+            var c = new Coord(int.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value));
+            var c2 = new Coord(int.Parse(m.Groups[1].Value) + 1, int.Parse(m.Groups[2].Value) + 1);
+            c.RegionToAbsolute();
+            c2.RegionToAbsolute();
+            return $"Region {m.Groups[1].Value}, {m.Groups[2].Value} :: ({c.X}, {c.Z}) to ({c2.X - 1}, {c2.Z - 1})";
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace RemoveYZeroBedrock.Minecraft.McaReader
+namespace RemoveBedrock.Minecraft.McaReader
 {
     public struct Coord
     {
@@ -25,49 +25,49 @@ namespace RemoveYZeroBedrock.Minecraft.McaReader
             Z += dz;
         }
 
-        public void ChunktoAbsolute()
+        public void ChunkToAbsolute()
         {
             X *= 16;
             Z *= 16;
         }
 
-        public void AbsolutetoChunk()
+        public void AbsoluteToChunk()
         {
-            X = (int)Math.Floor(((double)X) / 16.0);
-            Z = (int)Math.Floor(((double)Z) / 16.0);
+            X = (int)Math.Floor(X / 16.0);
+            Z = (int)Math.Floor(Z / 16.0);
         }
 
-        public void RegiontoAbsolute()
+        public void RegionToAbsolute()
         {
             X = X * 16 * 32;
             Z = Z * 16 * 32;
         }
 
-        public void AbsolutetoRegion()
+        public void AbsoluteToRegion()
         {
-            X = (int)Math.Floor(((double)X) / 32.0 / 16.0);
-            Z = (int)Math.Floor(((double)Z) / 32.0 / 16.0);
+            X = (int)Math.Floor(X / 32.0 / 16.0);
+            Z = (int)Math.Floor(Z / 32.0 / 16.0);
         }
 
-        public void RegiontoChunk()
+        public void RegionToChunk()
         {
             X = X * 32;
             Z = Z * 32;
         }
 
-        public void ChunktoRegion()
+        public void ChunkToRegion()
         {
-            X = (int)Math.Floor(((double)X) / 32.0);
-            Z = (int)Math.Floor(((double)Z) / 32.0);
+            X = (int)Math.Floor(X / 32.0);
+            Z = (int)Math.Floor(Z / 32.0);
         }
 
         //chunk coordinates within region, between (0, 0) and (31, 31)
-        public void ChunktoRegionRelative()
+        public void ChunkToRegionRelative()
         {
-            X = X % 32;
+            X %= 32;
             if (X < 0)
                 X += 32;
-            Z = Z % 32;
+            Z %= 32;
             if (Z < 0)
                 Z += 32;
         }
