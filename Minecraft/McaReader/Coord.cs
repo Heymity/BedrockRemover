@@ -51,8 +51,8 @@ namespace RemoveBedrock.Minecraft.McaReader
 
         public void RegionToChunk()
         {
-            X = X * 32;
-            Z = Z * 32;
+            X *= 32;
+            Z *= 32;
         }
 
         public void ChunkToRegion()

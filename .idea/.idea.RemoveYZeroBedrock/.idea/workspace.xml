@@ -28,6 +28,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c0e20a291a464f56964030d7c2b8199791d990/12/Array.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/135dbdf9e8b54f919efb8d3236b4556412040/1C/BinaryTagWriter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/135dbdf9e8b54f919efb8d3236b4556412040/4/Tag.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/135dbdf9e8b54f919efb8d3236b4556412040/A/TagCompound.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/135dbdf9e8b54f919efb8d3236b4556412040/B/TagDictionary.cs" root0="SKIP_HIGHLIGHTING" />
@@ -77,7 +78,7 @@
       <option name="presentableId" value="Default" />
       <updated>1638225031341</updated>
       <workItem from="1638225039383" duration="10704000" />
-      <workItem from="1638299444140" duration="2082000" />
+      <workItem from="1638299444140" duration="8764000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit; Installing packages and reading MCA data. Doesn't save it yet">
       <created>1638240802829</created>

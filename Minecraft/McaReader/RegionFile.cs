@@ -6,36 +6,37 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cyotek.Data.Nbt;
-using Cyotek.Data.Nbt.Serialization;
 using Ionic.Zlib;
 
 namespace RemoveBedrock.Minecraft.McaReader
 {
    public class RegionFile : IEnumerable<Chunk>
     {
-        private Chunk[,] Chunks;
-        private Coord Coords;
-        private readonly string Path;
-        private bool Dirty;
+        private Chunk[,] _chunks;
+        private Coord _coords;
+        private readonly string _path;
+        private bool _dirty;
 
         public RegionFile()
         {
-            Chunks = new Chunk[32, 32];
+            _chunks = new Chunk[32, 32];
         }
 
         public RegionFile(string path)
         {
-            Path = path;
-            Read(Path);
+            _path = path;
+            Read(_path);
         }
+
+        public Coord Coords => _coords;
 
         //http://www.minecraftwiki.net/wiki/Region_file_format
         private void Read(string path)
         {
-            Chunks = new Chunk[32, 32];
+            _chunks = new Chunk[32, 32];
             var m = Regex.Match(path, @"r\.(-?\d+)\.(-?\d+)\.mc[ar]");
-            Coords.X = int.Parse(m.Groups[1].Value);
-            Coords.Z = int.Parse(m.Groups[2].Value);
+            _coords.X = int.Parse(m.Groups[1].Value);
+            _coords.Z = int.Parse(m.Groups[2].Value);
 
             var header = new byte[8192];
 
@@ -70,7 +71,7 @@ namespace RemoveBedrock.Minecraft.McaReader
 
                     if (offset == 0 && length == 0)
                     {
-                        Chunks[chunkX, chunkZ] = chunk;
+                        _chunks[chunkX, chunkZ] = chunk;
                         continue;
                     }
 
@@ -95,8 +96,7 @@ namespace RemoveBedrock.Minecraft.McaReader
                             using var mem = new MemoryStream();
                             decompress.CopyTo(mem);
                             mem.Seek(0, SeekOrigin.Begin);
-                            //c.Root = new TAG_Compound(mem);
-                        
+
                             var document = NbtDocument.LoadDocument(mem);
                             chunk.NbtData = document;
                             break;
@@ -111,8 +111,7 @@ namespace RemoveBedrock.Minecraft.McaReader
                             using var mem = new MemoryStream();
                             decompress.CopyTo(mem);
                             mem.Seek(0, SeekOrigin.Begin);
-                            //c.Root = new TAG_Compound(mem);
-                        
+
                             var document = NbtDocument.LoadDocument(mem);
                             chunk.NbtData = document;
                             break;
@@ -120,8 +119,7 @@ namespace RemoveBedrock.Minecraft.McaReader
                         default:
                             throw new Exception("Unrecognized compression type");
                     }
-
-                    Chunks[chunkX, chunkZ] = chunk;
+                    _chunks[chunkX, chunkZ] = chunk;
                 }
             }
 
@@ -130,12 +128,12 @@ namespace RemoveBedrock.Minecraft.McaReader
 
         public void Write()
         {
-            Write(Path);
+            Write(_path);
         }
 
         public void Write(string path)
         {
-            if (!Dirty)
+            if (!_dirty)
                 return;
             
             var header = new byte[8192];
@@ -149,7 +147,7 @@ namespace RemoveBedrock.Minecraft.McaReader
             {
                 for (var chunkZ = 0; chunkZ < 32; chunkZ++)
                 {
-                    var c = Chunks[chunkX, chunkZ];
+                    var c = _chunks[chunkX, chunkZ];
                     if (c == null)
                         continue;
 
@@ -176,8 +174,8 @@ namespace RemoveBedrock.Minecraft.McaReader
                     {
                         //this is the performance bottleneck when doing 1024 chunks in a row;
                         //trying to only do when necessary
-                        var mem = new MemoryStream();
-                        var zlib = new ZlibStream(mem, CompressionMode.Compress);
+                        using var mem = new MemoryStream();
+                        using var zlib = new ZlibStream(mem, CompressionMode.Compress);
                         c.NbtData.Save(zlib);
                         zlib.Close();
                         c.RawData = mem.ToArray();
@@ -206,20 +204,20 @@ namespace RemoveBedrock.Minecraft.McaReader
             file.Write(header, 0, 8192);
             file.Flush();
             file.Close();
-            Dirty = false;
+            _dirty = false;
         }
 
-        public void SetDirty() => Dirty = true;
+        public void SetDirty() => _dirty = true;
         
-        public IEnumerator<Chunk> GetEnumerator() => Chunks.Cast<Chunk>().ToList().GetEnumerator();
+        public IEnumerator<Chunk> GetEnumerator() => _chunks.Cast<Chunk>().ToList().GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => Chunks.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => _chunks.GetEnumerator();
         
         public override string ToString()
         {
             var sb = new StringBuilder();
             sb.AppendFormat("Region [{0}, {1}]{2}{{{2}", Coords.X, Coords.Z, Environment.NewLine);
-            foreach (var c in Chunks)
+            foreach (var c in _chunks)
                 sb.Append(c);
             sb.AppendLine("}");
             return sb.ToString();
