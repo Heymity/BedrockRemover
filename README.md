@@ -1,6 +1,8 @@
 # BedrockRemover
 ![](ReadmeMedia/MainImage.png)
+
 If you would like to maintain the negative coordinates of your Minecraft world unaltered(void) when updating from 1.17 to 1.18, this is the solution
+
 ----
 
 ## Why?
@@ -35,7 +37,7 @@ the chunk data of a Minecraft save and alters it so that bedrock becomes deepsla
 ### How to use it
 
 - First MAKE A BACKUP of your world. Please understand that I have only tested this code with my world in my machine, and I offer NO warranty that it will work trouble free. It should, but I don't guarantee it will
-- Now that you have already made a backup, download the binary file(.exe)(still not available, clone the project and run it) and execute it
+- Now that you have already made a backup, download the [binary file(.exe)](https://github.com/Heymity/BedrockRemover/releases/tag/Release-1.0.0) and execute it
 - When the terminal shows up, simply copy and paste your save directory, so something like %appdata%/Roaming/.minecraft/saves/MyWorld (do not put %appdata%, the program will give an error, use the actual path of %appdata%)
   ![](ReadmeMedia/ExecuteCodeGuide.png) 
   ![](ReadmeMedia/PathExample.png)
