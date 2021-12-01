@@ -35,7 +35,7 @@ the chunk data of a Minecraft save and alters it so that bedrock becomes deepsla
 ### How to use it
 
 - First MAKE A BACKUP of your world. Please understand that I have only tested this code with my world in my machine, and I offer NO Warranty that it will work trouble free. It should, but I don't guarantee it will
-- Now that you have already made a backup, download the binary file(.exe) and execute it
-
+- Now that you have already made a backup, download the binary file(.exe)(still not available, clone the project and run it) and execute it
+- When the terminal shows up, simply copy and paste your save directory, so something like %appdata%/Roaming/.minecraft/saves/MyWorld (do not pu %appdata%, the program will give an error, use the actual path of %appdata%)
 
 Step by Step of how to use it will be done by tomorrow...
