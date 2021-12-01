@@ -51,9 +51,9 @@
   </component>
   <component name="RunManager">
     <configuration name="RemoveYZeroBedrock" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/bin/Debug/netcoreapp3.1/RemoveYZeroBedrock.exe" />
+      <option name="PROGRAM_PARAMETERS" value="6 58 135 -168" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bin/Debug/netcoreapp3.1" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -63,7 +63,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v3.1" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -78,7 +78,7 @@
       <option name="presentableId" value="Default" />
       <updated>1638225031341</updated>
       <workItem from="1638225039383" duration="10704000" />
-      <workItem from="1638299444140" duration="9588000" />
+      <workItem from="1638299444140" duration="13540000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit; Installing packages and reading MCA data. Doesn't save it yet">
       <created>1638240802829</created>

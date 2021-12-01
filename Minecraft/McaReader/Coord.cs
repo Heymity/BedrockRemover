@@ -3,6 +3,7 @@
  */
 
 using System;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace RemoveBedrock.Minecraft.McaReader
 {

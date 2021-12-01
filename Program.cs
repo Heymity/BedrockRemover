@@ -19,7 +19,41 @@ namespace RemoveBedrock
             MessageId = "type: System.Int16[]; size: 109MB")]
         private static void Main(string[] args)
         {
-            RegionHandler.RemoveBedrockForDirectory(ProgramPath + @"\test\input");
+            var minCoord = new Coord(int.MinValue, int.MinValue);
+            var maxCoord = new Coord(int.MaxValue, int.MaxValue);
+            
+            if (args.Length > 0)
+            {
+                if (args.Length % 2 != 0)
+                {
+                    Console.WriteLine(
+                        "The provided args cannot be converted into coordinates, they weren't provided in pairs");
+                    return;
+                }
+
+                var coord1X = int.Parse(args[0]);
+                var coord1Z = int.Parse(args[1]);
+                var coord2X = int.MaxValue;
+                var coord2Z = int.MaxValue;
+
+                if (args.Length > 2)
+                {
+                    coord2X = int.Parse(args[2]);
+                    coord2Z = int.Parse(args[3]);
+                }
+
+                minCoord.X = Math.Min(coord1X, coord2X);
+                maxCoord.X = Math.Max(coord1X, coord2X);
+                minCoord.Z = Math.Min(coord1Z, coord2Z);
+                maxCoord.Z = Math.Max(coord1Z, coord2Z);
+                
+                minCoord.AbsoluteToChunk();
+                maxCoord.AbsoluteToChunk();
+                
+                Console.WriteLine($"Substituting bedrock for area ranging from chunk {minCoord} to chunk {maxCoord}");
+            }
+
+            RegionHandler.RemoveBedrockForDirectory(ProgramPath + @"\test\input", minCoord, maxCoord);
         }
     }
 }
