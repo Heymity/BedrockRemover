@@ -49,7 +49,19 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected=".NET Project.RemoveYZeroBedrock">
+    <configuration name="Publish RemoveYZeroBedrock to folder (1)" type="DotNetFolderPublish" factoryName="Publish to folder">
+      <riderPublish configuration="Release" platform="Any CPU" ready_to_run="true" runtime="win-x86" self_contained="true" target_folder="$PROJECT_DIR$/bin/Release/netcoreapp3.1/publish" target_framework="netcoreapp3.1" trim_unused_assemblies="true" uuid_high="-2968077228923859564" uuid_low="-6526111929911402417" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Publish RemoveYZeroBedrock to folder (2)" type="DotNetFolderPublish" factoryName="Publish to folder" singleton="false">
+      <riderPublish configuration="Release" include_native_libs_for_self_extract="true" platform="Any CPU" produce_single_file="true" ready_to_run="true" runtime="win-x86" self_contained="true" target_folder="$PROJECT_DIR$/bin/Release/netcoreapp3.1/publish" target_framework="netcoreapp3.1" trim_unused_assemblies="true" uuid_high="-2968077228923859564" uuid_low="-6526111929911402417" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Publish RemoveYZeroBedrock to folder" type="DotNetFolderPublish" factoryName="Publish to folder">
+      <riderPublish configuration="Release" platform="Any CPU" ready_to_run="true" runtime="win-x86" self_contained="true" target_folder="$PROJECT_DIR$/bin/Release/netcoreapp3.1/publish" target_framework="netcoreapp3.1" trim_unused_assemblies="true" uuid_high="-2968077228923859564" uuid_low="-6526111929911402417" />
+      <method v="2" />
+    </configuration>
     <configuration name="RemoveYZeroBedrock" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/bin/Debug/netcoreapp3.1/RemoveYZeroBedrock.exe" />
       <option name="PROGRAM_PARAMETERS" value="6 58 135 -168" />
@@ -78,7 +90,8 @@
       <option name="presentableId" value="Default" />
       <updated>1638225031341</updated>
       <workItem from="1638225039383" duration="10704000" />
-      <workItem from="1638299444140" duration="14762000" />
+      <workItem from="1638299444140" duration="15451000" />
+      <workItem from="1638391531986" duration="5239000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit; Installing packages and reading MCA data. Doesn't save it yet">
       <created>1638240802829</created>
