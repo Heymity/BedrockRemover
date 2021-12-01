@@ -58,6 +58,14 @@
       <riderPublish configuration="Release" include_native_libs_for_self_extract="true" platform="Any CPU" produce_single_file="true" ready_to_run="true" runtime="win-x86" self_contained="true" target_folder="$PROJECT_DIR$/bin/Release/netcoreapp3.1/publish" target_framework="netcoreapp3.1" trim_unused_assemblies="true" uuid_high="-2968077228923859564" uuid_low="-6526111929911402417" />
       <method v="2" />
     </configuration>
+    <configuration name="Publish RemoveYZeroBedrock to folder (3)" type="DotNetFolderPublish" factoryName="Publish to folder" singleton="false">
+      <riderPublish configuration="Release" platform="Any CPU" runtime="Portable" target_folder="$PROJECT_DIR$/bin/Release/netcoreapp3.1/publish" target_framework="netcoreapp3.1" uuid_high="-2968077228923859564" uuid_low="-6526111929911402417" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Publish RemoveYZeroBedrock to folder (4)" type="DotNetFolderPublish" factoryName="Publish to folder" singleton="false">
+      <riderPublish configuration="Release" platform="Any CPU" runtime="Portable" target_folder="$PROJECT_DIR$/bin/Release/netcoreapp3.1/portable" target_framework="netcoreapp3.1" uuid_high="-2968077228923859564" uuid_low="-6526111929911402417" />
+      <method v="2" />
+    </configuration>
     <configuration name="Publish RemoveYZeroBedrock to folder" type="DotNetFolderPublish" factoryName="Publish to folder">
       <riderPublish configuration="Release" platform="Any CPU" ready_to_run="true" runtime="win-x86" self_contained="true" target_folder="$PROJECT_DIR$/bin/Release/netcoreapp3.1/publish" target_framework="netcoreapp3.1" trim_unused_assemblies="true" uuid_high="-2968077228923859564" uuid_low="-6526111929911402417" />
       <method v="2" />
@@ -91,7 +99,7 @@
       <updated>1638225031341</updated>
       <workItem from="1638225039383" duration="10704000" />
       <workItem from="1638299444140" duration="15451000" />
-      <workItem from="1638391531986" duration="5239000" />
+      <workItem from="1638391531986" duration="6170000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit; Installing packages and reading MCA data. Doesn't save it yet">
       <created>1638240802829</created>

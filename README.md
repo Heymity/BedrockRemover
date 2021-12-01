@@ -50,6 +50,7 @@ With the terminal open type
 RemoveYZeroBedrock.exe xMin zMin xMax zMax
 ```
 Substituting the xMin, zMin, xMax and zMax by the coordinates of your world that you want to remove the bedrock. The program will remove all bedrock in the square(area) defined by those chunks.
+![](ReadmeMedia/RemoveSection.gif)
 
 -----
 this program is designed to be time efficient, it is designed to run as fast as possibl.
