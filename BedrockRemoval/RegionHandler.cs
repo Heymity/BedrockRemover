@@ -15,7 +15,6 @@ namespace RemoveBedrock.BedrockRemoval
         private static void RemoveBedrockAndSave(this RegionFile region, Coord min, Coord max)
         {
             Console.WriteLine($"Removing Bedrock in region {region.Coords}");
-            //region.ToList().ForEach(chunk => chunk.ChangeChunkPaletteBlock(Bedrock, Deepslate));
             Parallel.ForEach(region, chunk =>
             {
                 var c = chunk.Coords;
@@ -57,7 +56,6 @@ namespace RemoveBedrock.BedrockRemoval
 
         public static void RemoveBedrockForDirectory(string dir, Coord min, Coord max)
         {
-            //LoadRegionsInDirectory(dir).ToList().ForEach(reg => reg.RemoveBedrockAndSave());
             Parallel.ForEach(LoadRegionsInDirectory(dir, min, max), reg => reg.RemoveBedrockAndSave(min, max));
         }
     }

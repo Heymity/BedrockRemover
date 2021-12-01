@@ -12,8 +12,8 @@ namespace RemoveBedrock
 {
     internal static class Program
     {
-        private const string ProgramPath =
-            @"C:\Users\GABRIEL\Desktop\LangFiles\C#\NBTManipulation\RemoveYZeroBedrock\RemoveYZeroBedrock";
+        //private const string ProgramPath =
+        //    @"C:\Users\GABRIEL\Desktop\LangFiles\C#\NBTManipulation\RemoveYZeroBedrock\RemoveYZeroBedrock";
 
         [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
             MessageId = "type: System.Int16[]; size: 109MB")]
@@ -53,7 +53,19 @@ namespace RemoveBedrock
                 Console.WriteLine($"Substituting bedrock for area ranging from chunk {minCoord} to chunk {maxCoord}");
             }
 
-            RegionHandler.RemoveBedrockForDirectory(ProgramPath + @"\test\input", minCoord, maxCoord);
+            Console.Write("Please specify the world save to be altered (Path to save): ");
+            var saveDir = Console.ReadLine() + "\\region";
+
+            /*var saveFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\.minecraft\saves";
+
+            var i = 0;
+            foreach (var save in Directory.GetDirectories(saveFolder))
+            {
+                Console.WriteLine($"{i} {Path.GetFileName(save)}");
+                i++;
+            }*/
+            
+            RegionHandler.RemoveBedrockForDirectory(saveDir, minCoord, maxCoord);
         }
     }
 }
