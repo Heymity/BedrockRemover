@@ -45,7 +45,7 @@ the chunk data of a Minecraft save and alters it so that bedrock becomes deepsla
 
 ### Notes:
 If you would like to convert just a certain area of the world, do NOT simply run the file. For this case you will need to run the program from another terminal:
-First, in the installation directory, click on the directory path and typ "cmd".
+First, in the installation directory, click on the directory path and type "cmd".
 ![](ReadmeMedia/OpenTerminalInFolder.gif)
 With the terminal open type 
 ```
