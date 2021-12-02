@@ -55,14 +55,12 @@ Substituting the xMin, zMin, xMax and zMax by the coordinates of your world that
 ![](ReadmeMedia/RemoveSection.gif)
 
 -----
-this program is designed to be time efficient, it is designed to run as fast as possibl.
-Because of that, it removes the bedrock in parallel, which means faster speed, but also means
-that the program needs to load the entire Minecraft map provided at once. Therefore
-this program uses A LOT of memory. More than chrome. Don't be scared if you see it using more than one gigabyte of memory, Minecraft does too.
-
----
 ### Final considerations
 
 - This program will remove only bedrock at the last subchunk, so, bedrock that is lower than Y = 16
 - This program works on a chunk by chunk bases. It won't make a smooth transition and won't delete half a chunk of bedrock, only the entire bedrock of the chunk.
 - If you have any problem while using this and think it is this code's fault, [open a issue here](https://github.com/Heymity/BedrockRemover/issues/new?assignees=Heymity&labels=&template=bug_report.md&title=)
+- this program is designed to be time efficient, it is designed to run as fast as possible.
+Because of that, it removes the bedrock in parallel, which means faster speed, but also means
+that the program needs to load the entire Minecraft map provided at once. Therefore
+this program uses A LOT of memory. More than chrome. Don't be scared if you see it using more than one gigabyte of memory, Minecraft does too.
