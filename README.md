@@ -14,7 +14,7 @@ Because of that change, to make old worlds compatible with this version,
 Mojang took the decision of simply filling the negative part of the world with 
 new terrain. Now, that solution works really great for a lot of cases, but there
 are some cases in which you might like not having this new terrain but have only void.
-e.g. Slime farms. These would be significantly affected by new terrain under then 
+e.g. Slime farms. These would be significantly affected by new terrain under them 
 since other mobs, including Slime could spawn on it. Of course it is possible to 
 solve this specific issue by just AFKing very heigh up in the sky, but sometimes
 that solutions isn't the best. Another case for having void there is for building.
@@ -47,7 +47,7 @@ the chunk data of a Minecraft save and alters it so that bedrock becomes deepsla
 If you would like to convert just a certain area of the world, do NOT simply run the file. For this case you will need to run the program from another terminal:
 First, in the installation directory, click on the directory path and type "cmd".
 ![](ReadmeMedia/OpenTerminalInFolder.gif)
-With the terminal open type 
+With the terminal open, type 
 ```
 RemoveYZeroBedrock.exe xMin zMin xMax zMax
 ```
