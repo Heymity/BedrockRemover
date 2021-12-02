@@ -65,3 +65,4 @@ this program uses A LOT of memory. More than chrome. Don't be scared if you see 
 
 - This program will remove only bedrock at the last subchunk, so, bedrock that is lower than Y = 16
 - This program works on a chunk by chunk bases. It won't make a smooth transition and won't delete half a chunk of bedrock, only the entire bedrock of the chunk.
+- If you have any problem while using this and think it is this code's fault, [open a issue here](https://github.com/Heymity/BedrockRemover/issues/new?assignees=Heymity&labels=&template=bug_report.md&title=)
